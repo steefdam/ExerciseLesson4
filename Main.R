@@ -18,17 +18,17 @@ library(raster)
 listL8 <- list.files(path='data/LC81970242014109', pattern = glob2rx('*.tif'), full.names=TRUE)
 listL5 <- list.files(path='data/LT51980241990098', pattern = glob2rx('*.tif'), full.names=TRUE)
 
-REDL8 <- raster(listL8[5])
-NIRL8 <- raster(listL8[6])
-REDL5 <- raster(listL5[6])
-NIRL5 <- raster(listL5[7])
+REDL8 <- raster(listL8[2])
+NIRL8 <- raster(listL8[3])
+REDL5 <- raster(listL5[2])
+NIRL5 <- raster(listL5[3])
 
 # 4th step: Calculate NDVI of both files
 source('R/ndvOver.R')
 NDVIL8 <- overlay(x=REDL8, y=NIRL8, fun=ndvOver)
-plot('NDVIL8')
+plot(NDVIL8)
 NDVIL5 <- overlay(x=REDL5, y=NIRL5, fun=ndvOver)
-plot('NDVIL5')
+plot(NDVIL5)
 
 # 5th step: Remove clouds
 cloudmaskL8 <- raster(listL8[1])
@@ -44,4 +44,4 @@ sameExtentL5<-sameExtent(cfNDVIL5,cfNDVIL8)
 
 # 7th step: Calculate difference
 NDVIDifference <- sameExtentL8 - sameExtentL5
-plot('NDVIDifference')
+plot(NDVIDifference)
